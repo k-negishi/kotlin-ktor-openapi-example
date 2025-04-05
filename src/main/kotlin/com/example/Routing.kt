@@ -13,6 +13,8 @@ import io.ktor.server.routing.routing
 fun Application.configureRouting() {
     install(Resources)
 
+    configureErrorHandler()
+
     routing {
         healthCheckRoutes()
     }
