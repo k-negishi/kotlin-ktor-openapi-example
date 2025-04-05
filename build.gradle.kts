@@ -1,13 +1,18 @@
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
-val kotlin_version: String by project
-val ktor_version: String by project
-val logback_version: String by project
+// Version constants
+val ktorVersion = "2.3.12"
+val logbackVersion = "1.4.14"
+val coroutinesVersion = "1.7.3"
+val kotestVersion = "5.8.1"
+val mockkVersion = "1.13.10"
+val openapiGeneratorVersion = "7.4.0"
+val jvmTargetVersion = 21
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.20"
     id("io.ktor.plugin") version "2.3.12"
-    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("plugin.serialization") version "2.0.20"
     id("org.openapi.generator") version "7.4.0"
 }
 
@@ -21,61 +26,93 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+kotlin {
+    jvmToolchain(jvmTargetVersion)
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
-    // ktor
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-resources:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation("io.ktor:ktor-server-openapi:$ktor_version")
-    implementation("io.ktor:ktor-server-openapi:$ktor_version")
-    implementation("io.ktor:ktor-server-swagger:$ktor_version")
+    // Ktor
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-resources:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("io.ktor:ktor-server-openapi:$ktorVersion")
+    implementation("io.ktor:ktor-server-swagger:$ktorVersion") // Removed duplicate
 
-    // openapi
-    implementation("org.openapitools:openapi-generator-gradle-plugin:7.4.0")
-//    implementation("org.openapitools:jackson-databind-nullable:2.12.3")
+    // OpenAPI
+    implementation("org.openapitools:openapi-generator-gradle-plugin:$openapiGeneratorVersion")
 
-    // test
-    testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+
+    // Testing
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+
+    // Kotest
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
+
+    // MockK
+    testImplementation("io.mockk:mockk:$mockkVersion")
+
+    // Coroutines test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
 
-// OpenAPI Generatorタスクの設定
+// OpenAPI Generator task configuration
 val generateApiTask = tasks.register<GenerateTask>("generateApi") {
-    generatorName.set("kotlin")
+    generatorName.set("kotlin-server")
     inputSpec.set("$rootDir/src/main/api/openapi.yaml")
-    outputDir.set("$rootDir")  // 生成コードの出力ディレクトリ
-//    outputDir.set("$buildDir/generated/src/main/kotlin")
+
+    // Place generated files directly in appropriate directories
+    outputDir.set("$rootDir")
+
     templateDir.set("$rootDir/src/main/api/templates")
     apiPackage.set("com.example.api")
     modelPackage.set("com.example.apiSchema")
-    configOptions.set(
+    // Set packageName same as apiPackage to prevent extra file generation
+    packageName.set("com.example.api")
+
+    configOptions.putAll(
         mapOf(
-            "library" to "jvm-ktor",
-            "dateLibrary" to "java8"
+            "library" to "ktor",
+            "serializationLibrary" to "kotlinx_serialization",
+            "useCoroutines" to "true",
+            "dateLibrary" to "java8",
+            "sourceFolder" to "src/main/kotlin"  // Specify output source folder
         )
     )
+
+    // Global properties configuration
+    // Empty models generates only model classes
+    // Empty apis generates empty API interfaces (which will be deleted)
     globalProperties.set(
         mapOf(
-            "models" to "", // モデルのみ生成
-//        TODO Paths.ktを生成できるようにする
-//        "supportingFiles" to "Paths.kt" // Paths.ktのみ生成
-//        "apis" to "",   // APIのみ生成
+            "models" to "",
+            "apis" to "",
+            "supportingFiles" to "Paths.kt" // Only ApiPaths class will be generated
         )
     )
+
+    // Add task to delete HealthcheckApi.kt after generation
+    doLast {
+        delete(fileTree("$rootDir/src/main/kotlin/com/example/api") {
+            include("**/*Api.kt")
+        })
+    }
 }
 
-sourceSets {
-    main {
-        kotlin {
-            srcDirs("$buildDir/generated/src/main/kotlin")
-        }
-    }
+// Kotest configuration
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
