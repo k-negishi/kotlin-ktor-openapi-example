@@ -11,7 +11,7 @@ paths:
       tags:
         - healthcheck
       summary: Healthcheck endpoint
-      operationId: healthcheck2
+      operationId: healthcheck
       responses:
         '200':
           description: OK
@@ -30,14 +30,45 @@ components:
     ErrorResponse:
       type: object
       properties:
+        code:
+          type: integer
+          format: int32
+          description: HTTP status code
         message:
           type: string
+          description: Error message
+        details:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional error details as string values
       required:
+        - code
         - message
     HealthcheckMessage:
       type: object
       properties:
         message:
           type: string
+        timestamp:
+          type: string
+          format: date-time
+          description: ISO-8601 formatted date-time of the health check execution
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+          description: Overall system health status
+        services:
+          type: object
+          additionalProperties:
+            type: boolean
+          description: Status of individual services that were checked
+        details:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional status details that vary based on health status
       required:
         - message
+        - timestamp
+        - status
