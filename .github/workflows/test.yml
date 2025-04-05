@@ -9,20 +9,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        part: [1, 2, 3]
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        
-    - name: Run tests (part ${{ matrix.part }}/3)
-      run: ./gradlew test --tests "com.example.*" --split-test-pattern="testSplit=${{ matrix.part }}"
-      env:
-        TEST_SPLIT: ${{ matrix.part }}
-        TEST_SPLITS_TOTAL: 3
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Run tests
+        run: ./gradlew test
