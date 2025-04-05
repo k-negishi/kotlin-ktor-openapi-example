@@ -3,7 +3,7 @@ package com.example.application
 import com.example.apiSchema.HealthcheckMessage
 import com.example.domain.HealthCheckService
 import com.example.domain.SystemStatus
-import com.example.framework.BaseUseCase
+import com.example.framework.BaseController
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -11,7 +11,7 @@ import io.ktor.server.response.*
 /**
  * シンプルなヘルスチェックユースケース
  */
-class GetHealthcheckUseCase : BaseUseCase() {
+class GetHealthcheckController : BaseController() {
     private val healthCheckService = HealthCheckService()
     
     /**

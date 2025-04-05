@@ -4,7 +4,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 
-abstract class BaseUseCase {
+abstract class BaseController {
     suspend fun handleRequest(call: ApplicationCall, action: suspend () -> Unit) {
         try {
             action()

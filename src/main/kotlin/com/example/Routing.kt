@@ -1,7 +1,7 @@
 package com.example
 
 import com.example.api.ApiPaths
-import com.example.application.GetHealthcheckUseCase
+import com.example.application.GetHealthcheckController
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.application.install
@@ -22,7 +22,7 @@ fun Application.configureRouting() {
 
 fun Route.healthCheckRoutes() {
     get<ApiPaths.healthcheck> {
-        val useCase = GetHealthcheckUseCase()
+        val useCase = GetHealthcheckController()
         useCase.handle(call)
     }
 }

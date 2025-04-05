@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 
-class GetHealthcheckUseCaseTest : FunSpec({
+class GetHealthcheckControllerTest : FunSpec({
     // すべてのテストをコルーチンコンテキストで実行する設定
     coroutineTestScope = true
     // 並行実行を無効化して1つずつ実行
@@ -27,7 +27,7 @@ class GetHealthcheckUseCaseTest : FunSpec({
     }
 
     // テスト対象
-    val useCase = GetHealthcheckUseCase()
+    val useCase = GetHealthcheckController()
 
     // モック
     val call = mockk<ApplicationCall>(relaxed = true)
