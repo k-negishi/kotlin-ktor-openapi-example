@@ -1,14 +1,14 @@
 {{>licenseInfo}}
-package {{packageName}}
+package {{apiPackage}}
 
 import io.ktor.resources.*
 import kotlinx.serialization.*
-import {{packageName}}.models.*
+import {{modelPackage}}.*
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#apiInfo}}
-    object Paths {
+    object ApiPaths {
     {{#apis}}
         {{#operations}}
             {{#operation}}

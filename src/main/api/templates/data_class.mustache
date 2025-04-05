@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 {{#serializableModel}}
 import java.io.Serializable
 {{/serializableModel}}
+import kotlinx.serialization.Serializable
 /**
  * {{{description}}}
 {{#vars}}
@@ -15,6 +16,7 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
+@Serializable
 {{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
