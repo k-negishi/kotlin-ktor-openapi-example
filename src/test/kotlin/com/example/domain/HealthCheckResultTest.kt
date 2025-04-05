@@ -1,11 +1,10 @@
-package com.example.feature.healthCheck.domain
+package com.example.domain
 
+import com.example.domain.HealthCheckResult
+import com.example.domain.SystemStatus
 import io.kotest.core.spec.style.FeatureSpec
-import io.kotest.matchers.maps.shouldContainKey
-import io.kotest.matchers.maps.shouldContainValue
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.nulls.shouldBeNull
 
 class HealthCheckResultTest : FeatureSpec({
     feature("HealthCheckResult.getDetailsMap") {

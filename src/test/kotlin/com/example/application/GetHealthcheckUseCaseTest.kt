@@ -1,10 +1,9 @@
-package com.example.feature.healthCheck
+package com.example.application
 
 import com.example.apiSchema.HealthcheckMessage
-import com.example.feature.healthCheck.domain.HealthCheckResult
-import com.example.feature.healthCheck.domain.SystemStatus
+import com.example.domain.HealthCheckResult
+import com.example.domain.SystemStatus
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond

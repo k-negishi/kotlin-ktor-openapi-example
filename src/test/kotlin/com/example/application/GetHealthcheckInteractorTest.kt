@@ -1,8 +1,7 @@
-package com.example.feature.healthCheck
+package com.example.application
 
-import com.example.feature.healthCheck.domain.HealthCheckResult
-import com.example.feature.healthCheck.domain.HealthCheckService
-import com.example.feature.healthCheck.domain.SystemStatus
+import com.example.domain.HealthCheckService
+import com.example.domain.SystemStatus
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.shouldBe
