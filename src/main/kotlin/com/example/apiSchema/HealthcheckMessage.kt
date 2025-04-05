@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
  * @param timestamp ISO-8601 formatted date-time of the health check execution
  * @param status Overall system health status
  * @param services Status of individual services that were checked
+ * @param details Additional status details that vary based on health status
  */
 @Serializable
 data class HealthcheckMessage(
@@ -26,7 +27,7 @@ data class HealthcheckMessage(
     /* ISO-8601 formatted date-time of the health check execution */
     val timestamp: kotlin.String,
     /* Overall system health status */
-    val status: Status,
+    val status: HealthcheckMessage.Status,
     /* Status of individual services that were checked */
     val services: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     /* Additional status details that vary based on health status */
@@ -37,8 +38,7 @@ data class HealthcheckMessage(
     * Overall system health status
     * Values: healthy,degraded,unhealthy
     */
-    @Serializable
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: kotlin.String){
         healthy("healthy"),
         degraded("degraded"),
         unhealthy("unhealthy");

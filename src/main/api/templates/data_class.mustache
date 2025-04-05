@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInPascalCase}}}(val value: {{{dataType}}}){
+    enum class {{#nameInPascalCase}}{{{nameInPascalCase}}}{{/nameInPascalCase}}{{^nameInPascalCase}}Status{{/nameInPascalCase}}(val value: {{{dataType}}}){
     {{#allowableValues}}
     {{#enumVars}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}

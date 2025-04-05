@@ -11,21 +11,21 @@
 */
 package com.example.apiSchema
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 
+import kotlinx.serialization.Serializable
 /**
- * APIエラーレスポンス
  * 
- * @param code HTTPステータスコード
- * @param message エラーメッセージ
- * @param details 任意の追加情報
+ * @param code HTTP status code
+ * @param message Error message
+ * @param details Additional error details as string values
  */
 @Serializable
 data class ErrorResponse(
-    val code: Int,
-    val message: String,
-    val details: Map<String, String>? = null
-)
+    /* HTTP status code */
+    val code: kotlin.Int,
+    /* Error message */
+    val message: kotlin.String,
+    /* Additional error details as string values */
+    val details: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
+) 
 
