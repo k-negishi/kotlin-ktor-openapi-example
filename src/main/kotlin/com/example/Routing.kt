@@ -1,7 +1,7 @@
 package com.example
 
 import com.example.api.ApiPaths
-import com.example.feature.healthCheck.GetHealthcheckUseCase
+import com.example.application.GetHealthcheckUseCase
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.application.install

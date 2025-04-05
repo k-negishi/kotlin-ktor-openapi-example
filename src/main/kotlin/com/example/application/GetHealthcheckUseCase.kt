@@ -1,14 +1,12 @@
-package com.example.feature.healthCheck
+package com.example.application
 
 import com.example.apiSchema.HealthcheckMessage
-import com.example.feature.healthCheck.domain.HealthCheckService
-import com.example.feature.healthCheck.domain.SystemStatus
+import com.example.domain.HealthCheckService
+import com.example.domain.SystemStatus
 import com.example.framework.BaseUseCase
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * シンプルなヘルスチェックユースケース

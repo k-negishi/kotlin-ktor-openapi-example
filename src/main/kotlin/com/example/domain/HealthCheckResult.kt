@@ -1,4 +1,4 @@
-package com.example.feature.healthCheck.domain
+package com.example.domain
 
 /**
  * ヘルスチェックの結果を表すドメインモデル

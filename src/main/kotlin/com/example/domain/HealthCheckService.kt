@@ -1,6 +1,5 @@
-package com.example.feature.healthCheck.domain
+package com.example.domain
 
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 

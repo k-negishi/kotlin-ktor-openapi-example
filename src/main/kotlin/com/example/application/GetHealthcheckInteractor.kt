@@ -1,7 +1,7 @@
-package com.example.feature.healthCheck
+package com.example.application
 
-import com.example.feature.healthCheck.domain.HealthCheckResult
-import com.example.feature.healthCheck.domain.HealthCheckService
+import com.example.domain.HealthCheckResult
+import com.example.domain.HealthCheckService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.async

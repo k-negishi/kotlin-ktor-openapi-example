@@ -1,4 +1,4 @@
-package com.example.feature.healthCheck.domain
+package com.example.domain
 
 /**
  * システムの健康状態を表すシールドクラス階層
